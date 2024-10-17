@@ -1,0 +1,42 @@
+<div class="crypto-list">
+  <h2>Cryptocurrency Tracker</h2>
+
+  <div *ngIf="state.isLoading" class="loading">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+
+  <div *ngIf="state.errorMessage" class="error">
+    {{ state.errorMessage }}
+  </div>
+
+  <table mat-table [dataSource]="state.cryptocurrencies" class="mat-elevation-z8" *ngIf="!state.isLoading && !state.errorMessage">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let crypto"> {{ crypto.name }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="currentPrice">
+      <th mat-header-cell *matHeaderCellDef> Current Price </th>
+      <td mat-cell *matCellDef="let crypto"> {{ crypto.currentPrice | currency: 'USD': true }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="marketCap">
+      <th mat-header-cell *matHeaderCellDef> Market Cap </th>
+      <td mat-cell *matCellDef="let crypto"> {{ crypto.marketCap | number }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="volume">
+      <th mat-header-cell *matHeaderCellDef> Volume </th>
+      <td mat-cell *matCellDef="let crypto"> {{ crypto.totalVolume | number }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="priceChangePercentage24h">
+      <th mat-header-cell *matHeaderCellDef> 24h Change (%) </th>
+      <td mat-cell *matCellDef="let crypto"> {{ crypto.priceChangePercentage24h | percent }} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['name', 'currentPrice', 'marketCap', 'volume', 'priceChangePercentage24h']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['name', 'currentPrice', 'marketCap', 'volume', 'priceChangePercentage24h']"></tr>
+  </table>
+</div>
